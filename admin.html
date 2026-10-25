@@ -1,0 +1,476 @@
+```html
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard | Geurshom Modern Shop</title>
+
+  <style>
+    :root {
+      --green: #075e43;
+      --dark: #063b2d;
+      --gold: #f4b942;
+      --background: #f3f6f5;
+      --white: #ffffff;
+      --red: #c62828;
+      --border: #dce4e0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--background);
+      color: #222;
+      line-height: 1.5;
+    }
+
+    header {
+      background: var(--dark);
+      color: white;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    header h1 span {
+      color: var(--gold);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: 28px auto;
+    }
+
+    .panel {
+      background: var(--white);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 3px 14px #0000000d;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      color: var(--dark);
+      margin-bottom: 18px;
+    }
+
+    .login-panel {
+      max-width: 450px;
+      margin: 55px auto;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-size: 15px;
+      background: white;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #98cbb6;
+      border-color: var(--green);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .button {
+      border: none;
+      border-radius: 7px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .primary {
+      background: var(--green);
+      color: white;
+    }
+
+    .primary:hover {
+      background: var(--dark);
+    }
+
+    .gold {
+      background: var(--gold);
+      color: #222;
+    }
+
+    .danger {
+      background: var(--red);
+      color: white;
+    }
+
+    .secondary {
+      background: #e6ece9;
+      color: #222;
+    }
+
+    .button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      border-radius: 7px;
+      margin: 15px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: #ffebee;
+      color: #a71919;
+    }
+
+    .message.success {
+      background: #e4f6e9;
+      color: #126331;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid var(--green);
+      box-shadow: 0 3px 10px #00000008;
+    }
+
+    .stat-card p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 25px;
+      color: var(--dark);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 13px;
+      border-bottom: 1px solid #e5eae7;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #edf4f0;
+      color: var(--dark);
+    }
+
+    .product-thumb {
+      width: 55px;
+      height: 55px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #eee;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .table-actions .button {
+      padding: 8px 10px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .hint {
+      color: #666;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #666;
+    }
+
+    @media (max-width: 650px) {
+      header {
+        align-items: flex-start;
+      }
+
+      .form-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 17px;
+      }
+
+      .container {
+        width: 94%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>GEURSHOM <span>ADMIN</span></h1>
+
+  <div class="header-actions">
+    <a href="/" class="button gold">Reba Website</a>
+    <button id="logoutButton" class="button secondary hidden">
+      Gusohoka
+    </button>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- LOGIN -->
+  <section id="loginSection" class="panel login-panel">
+    <h2>Kwinjira muri Admin</h2>
+
+    <p class="hint">
+      Koresha amakuru ya admin washyize muri server yawe.
+    </p>
+
+    <div id="loginMessage" class="message"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="username">Izina rya Admin</label>
+        <input
+          id="username"
+          name="username"
+          autocomplete="username"
+          required
+        >
+      </div>
+
+      <br>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <div class="form-actions">
+        <button id="loginButton" type="submit" class="button primary">
+          Injira
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboardSection" class="hidden">
+
+    <div class="stats">
+      <div class="stat-card">
+        <p>Ibicuruzwa byose</p>
+        <strong id="totalProducts">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <p>Categories</p>
+        <strong id="totalCategories">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <p>Igiteranyo cy'agaciro k'ibicuruzwa</p>
+        <strong id="totalValue">0 RWF</strong>
+      </div>
+    </div>
+
+    <!-- ADD / EDIT PRODUCT -->
+    <section class="panel">
+      <h2 id="formTitle">Ongeraho Igicuruzwa</h2>
+
+      <div id="productMessage" class="message"></div>
+
+      <form id="productForm">
+        <input type="hidden" id="productId">
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="productName">Izina ry'igicuruzwa *</label>
+            <input
+              id="productName"
+              required
+              maxlength="120"
+              placeholder="Urugero: Radio"
+            >
+          </div>
+
+          <div class="field">
+            <label for="productCategory">Icyiciro *</label>
+            <select id="productCategory" required>
+              <option value="Electronics">Electronics</option>
+              <option value="Imitako">Imitako</option>
+              <option value="Ibikoresho byo mu rugo">
+                Ibikoresho byo mu rugo
+              </option>
+              <option value="Ibindi">Ibindi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="productPrice">Igiciro muri RWF *</label>
+            <input
+              id="productPrice"
+              type="number"
+              min="0"
+              step="1"
+              required
+              placeholder="15000"
+            >
+          </div>
+
+          <div class="field">
+            <label for="productImage">Link y'ifoto</label>
+            <input
+              id="productImage"
+              type="url"
+              maxlength="1000"
+              placeholder="https://example.com/photo.jpg"
+            >
+          </div>
+
+          <div class="field full">
+            <label for="productDescription">Ibisobanuro</label>
+            <textarea
+              id="productDescription"
+              maxlength="1000"
+              placeholder="Andika ibisobanuro by'igicuruzwa..."
+            ></textarea>
+          </div>
+
+        </div>
+
+        <p class="hint">
+          Koresha link y'ifoto iboneka kuri internet. Iyi form ntishyiraho
+          ifoto yo muri mudasobwa; bisaba kongeramo uburyo bwo kuyohereza kuri server.
+        </p>
+
+        <div class="form-actions">
+          <button id="saveButton" class="button primary" type="submit">
+            Bika Igicuruzwa
+          </button>
+
+          <button
+            id="cancelEditButton"
+            class="button secondary hidden"
+            type="button"
+          >
+            Hagarika Guhindura
+          </button>
+
+          <button
+            id="refreshButton"
+            class="button gold"
+            type="button"
+          >
+            Ongera Usome Ibicuruzwa
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- PRODUCTS TABLE -->
+    <section class="panel">
+      <h2>G
